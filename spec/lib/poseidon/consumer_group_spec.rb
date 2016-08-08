@@ -56,7 +56,7 @@ describe Poseidon::ConsumerGroup do
   its(:zk)         { should be(zk_client) }
 
   its(:claimed)        { should == [0, 1] }
-  its(:metadata)       { should be_instance_of(Poseidon::ClusterMetadata) }
+  its(:meta_data)       { should be_instance_of(Poseidon::ClusterMetadata) }
   its(:topic_metadata) { should be_instance_of(Poseidon::TopicMetadata) }
   its(:registries)     { should == {
     consumer: "/consumers/my-group/ids",
@@ -64,7 +64,7 @@ describe Poseidon::ConsumerGroup do
     offset:   "/consumers/my-group/offsets/mytopic",
   }}
 
-  its("metadata.brokers.keys") { should =~ [1,2] }
+  its("meta_data.brokers.keys") { should =~ [1,2] }
   its("topic_metadata.partition_count") { should == 2 }
 
   it "should register with zookeeper and rebalance" do

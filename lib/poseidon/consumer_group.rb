@@ -127,13 +127,13 @@ class Poseidon::ConsumerGroup
   end
 
   # @return [Poseidon::ClusterMetadata] cluster metadata
-  def metadata
+  def meta_data
     @metadata ||= Poseidon::ClusterMetadata.new.tap {|m| m.update pool.fetch_metadata([topic]) }
   end
 
   # @return [Poseidon::TopicMetadata] topic metadata
   def topic_metadata
-    @topic_metadata ||= metadata.metadata_for_topics([topic])[topic]
+    @topic_metadata ||= meta_data.metadata_for_topics([topic])[topic]
   end
 
   # @return [Boolean] true if registered
@@ -160,7 +160,7 @@ class Poseidon::ConsumerGroup
   # Reloads metadata/broker/partition information
   def reload
     @metadata = @topic_metadata = nil
-    metadata
+    meta_data
     self
   end
 
@@ -174,7 +174,7 @@ class Poseidon::ConsumerGroup
   # @param [Integer] partition
   # @return [Poseidon::Protocol::Broker] the leader for the given partition
   def leader(partition)
-    metadata.lead_broker_for_partition(topic, partition)
+    meta_data.lead_broker_for_partition(topic, partition)
   end
 
   # @param [Integer] partition
